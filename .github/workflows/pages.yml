@@ -27,8 +27,8 @@ jobs:
       - run: npm run build:pages
         env:
           GITHUB_PAGES: "true"
-          NEXT_PUBLIC_BASE_PATH: /anatomy
-          NEXT_PUBLIC_SITE_URL: https://vianbas.github.io
+          NEXT_PUBLIC_BASE_PATH: ""
+          NEXT_PUBLIC_SITE_URL: https://anatomy.vikoabastian.com
       - run: npm run test:pages
       - uses: actions/upload-pages-artifact@v4
         with:
