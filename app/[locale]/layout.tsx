@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getLocale, isLocale, localeCodes, locales } from "../i18n/config";
 import { fontClassName } from "../i18n/fonts";
 import { getDictionary } from "../i18n/dictionaries";
+import { basePath } from "../lib/base-path";
 import "../globals.css";
 
 export function generateStaticParams() {
@@ -28,7 +29,7 @@ export async function generateMetadata({
   if (!isLocale(locale)) return {};
   const config = getLocale(locale);
   const { ui } = await getDictionary(locale);
-  const image = { url: "/og.jpg", width: 1200, height: 675, alt: ui.meta.imageAlt };
+  const image = { url: `${basePath}/og.jpg`, width: 1200, height: 675, alt: ui.meta.imageAlt };
 
   return {
     metadataBase: new URL(siteUrl),
@@ -36,21 +37,21 @@ export async function generateMetadata({
     description: ui.meta.description,
     applicationName: "Anatomy Atelier",
     alternates: {
-      canonical: `/${locale}`,
+      canonical: `${basePath}/${locale}/`,
       // Lets search engines serve the right language and offer the rest.
       languages: {
-        ...Object.fromEntries(locales.map((entry) => [entry.code, `/${entry.code}`])),
-        "x-default": "/en",
+        ...Object.fromEntries(locales.map((entry) => [entry.code, `${basePath}/${entry.code}/`])),
+        "x-default": `${basePath}/en/`,
       },
     },
     icons: {
       icon: [
-        { url: "/favicon.svg", type: "image/svg+xml" },
-        { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
-        { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+        { url: `${basePath}/favicon.svg`, type: "image/svg+xml" },
+        { url: `${basePath}/icon-192.png`, sizes: "192x192", type: "image/png" },
+        { url: `${basePath}/icon-512.png`, sizes: "512x512", type: "image/png" },
       ],
-      shortcut: "/favicon.svg",
-      apple: { url: "/apple-touch-icon.png", sizes: "180x180" },
+      shortcut: `${basePath}/favicon.svg`,
+      apple: { url: `${basePath}/apple-touch-icon.png`, sizes: "180x180" },
     },
     openGraph: {
       type: "website",

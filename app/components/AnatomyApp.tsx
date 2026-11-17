@@ -24,6 +24,7 @@ import {
   X,
 } from "lucide-react";
 import { OrganViewer } from "./OrganViewer";
+import { basePath } from "../lib/base-path";
 import type { OrganId } from "../lib/anatomy-data";
 import type { LocaleConfig } from "../i18n/config";
 import { locales } from "../i18n/config";
@@ -61,7 +62,7 @@ function OrganArt({
   return (
     <img
       key={`${organ.id}-${asset}`}
-      src={`/anatomy/${organ.id}/${asset}.webp`}
+      src={`${basePath}/anatomy/${organ.id}/${asset}.webp`}
       alt={alt}
       width={size}
       height={size}
@@ -103,7 +104,7 @@ function LanguageSwitcher({ locale, t }: { locale: LocaleConfig; t: UiDictionary
         aria-label={t.language.choose}
         value={locale.code}
         onChange={(event) => {
-          window.location.pathname = `/${event.target.value}`;
+          window.location.pathname = `${basePath}/${event.target.value}/`;
         }}
       >
         {locales.map((entry) => (
@@ -152,7 +153,7 @@ export function AnatomyApp({ locale, dictionary }: { locale: LocaleConfig; dicti
     if (organById[id].illustrated) {
       ["organ", "microscopic", "compare", "location"].forEach((asset) => {
         const image = new Image();
-        image.src = `/anatomy/${id}/${asset}.webp`;
+        image.src = `${basePath}/anatomy/${id}/${asset}.webp`;
       });
     }
     setOrganId(id);
