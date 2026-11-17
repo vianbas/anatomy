@@ -13,6 +13,19 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_PAGES: "false"
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+
   build:
     runs-on: ubuntu-latest
     steps:
@@ -23,9 +36,6 @@ jobs:
           cache: npm
       - uses: actions/configure-pages@v5
       - run: npm ci
-      - run: npm test
-        env:
-          GITHUB_PAGES: "false"
       - run: npm run build:pages
         env:
           GITHUB_PAGES: "true"
@@ -37,7 +47,7 @@ jobs:
           path: out
 
   deploy:
-    needs: build
+    needs: [test, build]
     runs-on: ubuntu-latest
     permissions:
       pages: write
