@@ -15,10 +15,6 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      GITHUB_PAGES: "true"
-      NEXT_PUBLIC_BASE_PATH: /anatomy
-      NEXT_PUBLIC_SITE_URL: https://vianbas.github.io
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v4
@@ -27,7 +23,12 @@ jobs:
           cache: npm
       - uses: actions/configure-pages@v5
       - run: npm ci
+      - run: npm test
       - run: npm run build:pages
+        env:
+          GITHUB_PAGES: "true"
+          NEXT_PUBLIC_BASE_PATH: /anatomy
+          NEXT_PUBLIC_SITE_URL: https://vianbas.github.io
       - run: npm run test:pages
       - uses: actions/upload-pages-artifact@v4
         with:
